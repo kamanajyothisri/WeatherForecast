@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="designstyle.css">
+    <link rel="icon" href="Aicon.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(120deg, #2980b9, #8e44ad);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            width: 100%;
+        }
+
+        nav label.logo {
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin-left: auto;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: normal;
+        }
+
+        .wrapper {
+            width: 400px;
+            border-radius: 7px;
+            background: #fff;
+            margin-top: 20px; /* Added margin to separate from the navigation */
+        }
+
+        .wrapper header {
+            font-size: 21px;
+            color: 1px solid black;
+            font-weight: 500;
+            padding: 16px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #bfbfbf;
+            justify-content: center; /* Center the content horizontally */
+        }
+
+        header i {
+            cursor: pointer;
+            font-size: 30px;
+            margin-right: 8px;
+        }
+
+        .wrapper .input-part {
+            margin: 20px 25px 30px;
+        }
+
+        .input-part input,
+        .input-part button {
+            width: 100%;
+            height: 55px;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            border-radius: 7px;
+        }
+
+        .input-part input {
+            text-align: center;
+            border: 1px solid #bfbfbf;
+        }
+
+        .input-part button {
+            color: #fff;
+            background: #43affc;
+            cursor: pointer;
+        }
+
+        .input-part .seperator {
+            height: 1px;
+            width: 100%;
+            margin: 25px 0;
+            background: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .seperator::before {
+            content: "or";
+            font-size: 19px;
+            padding: 0 15px;
+            background: #fff;
+            color: #ccc;
+        }
+
+        .input-part .info-txt {
+            font-size: 17px;
+            border-radius: 7px;
+            text-align: center;
+            padding: 12px 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-txt.valid {
+            color: #24445a;
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+        }
+
+        .info-txt.invalid {
+            color: red;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+
+        .input-part input:focus,
+        .input-part input:valid {
+            border: 2px solid #43affc;
+        }
+
+        .Weather-part {
+            padding: 20px;
+            text-align: center;
+            display: none; /* Initially hidden */
+        }
+
+        .weather-info {
+            font-size: 20px;
+            font-weight: 200;
+            margin-bottom: 10px;
+        }
+
+        .temperature {
+            font-size: 40px;
+        }
+
+        .weather-description {
+            font-size: 20px;
+        }
+        /* CSS for the dropdown */
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-dropdown .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .user-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .user-dropdown .dropdown-content li {
+            padding: 8px 12px;
+        }
+
+        .user-dropdown .dropdown-content a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .user-dropdown .dropdown-content a:hover {
+            background-color: #444;
+        }
+        img {
+            max-width: 35px; /* Ensure the image does not exceed its container's width */
+            height: auto; /* Maintain the image's aspect ratio */
+            margin-top: 2px; /* Add some space between the image and the content */
+            border-radius: 7px; /* Apply rounded corners to the image */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to the image */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <label class="logo">Weather App</label>
+        <img src="https://imgs.search.brave.com/J5MgGotWLQFghvd1ogVBiU3ODZKexP98LfRenucUbpU/rs:fit:500:0:0/g:ce/aHR0cDovL2ltYWdl/cy5jbGlwYXJ0cGFu/ZGEuY29tL3dlYXRo/ZXItY2xpcGFydC1m/b3Ita2lkcy1zdW4t/YW5kLXJhaW4td2Vh/dGhlci1zeW1ib2xz/LWNsaXAtYXJ0Lmpw/Zw" alt="Weather Image">
+        <ul>
+            <li><a class="active" href="#">Home</a></li>
+            <li><a href="signup.html">Signup</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li class="user-dropdown">
+                <div class="user-email" id="userEmail">user@example.com</div>
+                <ul class="dropdown-content">
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="wrapper">
+        <header>Weather</header>
+        <section class="input-part">
+            <p class="info-txt valid">Please enter a valid city name</p>
+            <input type="text" id="cityInput" placeholder="Enter city name" spellcheck="false" required>
+            <div class="seperator"></div>
+            <button id="getLocationBtn">Get Weather</button>
+        </section>
+
+        <section class="Weather-part">
+            <div class="weather-info">
+                <!-- Weather information will be displayed here -->
+            </div>
+            <div class="temperature"></div>
+            <div class="weather-description"></div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userEmail = document.getElementById('userEmail');
+
+            // Function to get the value of a cookie by its name
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            // Check if the 'userEmail' cookie exists
+            const userEmailValue = getCookie('userEmail');
+
+            if (userEmailValue) {
+                const formattedEmail = userEmailValue.replace('%40', '@');
+                // Display only the user's email without the "Logged in as:" text
+                userEmail.textContent = formattedEmail;
+            }
+
+            document.getElementById('getLocationBtn').addEventListener('click', async function () {
+                const cityInput = document.getElementById('cityInput').value;
+
+                // Construct the URL with query parameters
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(cityInput)}&appid=57b1a6fda823e66698a42ec5fb8d6c80`;
+
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        const weatherInfo = document.querySelector('.weather-info');
+                        const temperature = document.querySelector('.temperature');
+                        const weatherDescription = document.querySelector('.weather-description');
+
+                        // Modified display format
+                        weatherInfo.innerHTML = `<h2>Weather in ${data.name}:</h2><small>${data.sys.country}</small>`;
+                        temperature.textContent = `${Math.round(data.main.temp - 273.15)}°C`;
+                        weatherDescription.textContent = `${data.weather[0].description}`;
+
+                        // Display the weather section
+                        document.querySelector('.Weather-part').style.display = 'block';
+                    } else {
+                        throw new Error(data.message);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert('Failed to fetch weather data.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
